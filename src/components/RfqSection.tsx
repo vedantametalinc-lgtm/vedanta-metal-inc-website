@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, FileText, CheckCircle2, MessageSquare, Send, X, AlertCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle2, MessageSquare, Send, X, AlertCircle, Mail, Copy } from 'lucide-react';
 import { MATERIAL_CATEGORIES, COMPANY_INFO } from '../data/metalsData';
 
 interface RfqSectionProps {
@@ -28,6 +28,9 @@ export const RfqSection: React.FC<RfqSectionProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [rfqReferenceId, setRfqReferenceId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [copiedEmailBody, setCopiedEmailBody] = useState(false);
+
+  const targetEmail = COMPANY_INFO.emails[0]; // sales@vedantametalinc.com
 
   // Update form if parent passes initial values
   useEffect(() => {
@@ -64,6 +67,49 @@ export const RfqSection: React.FC<RfqSectionProps> = ({
     }
   };
 
+  const getEmailContent = (refId: string) => {
+    const subject = `Material RFQ [${refId}] - ${formData.companyName ? `${formData.companyName} / ` : ''}${formData.fullName}`;
+    const body = `Attn: Sales Department - VEDANTA METAL INC
+Email: ${targetEmail}
+
+Material Procurement Enquiry
+Reference ID: ${refId}
+
+--- BUYER INFORMATION ---
+Full Name: ${formData.fullName}
+Company Name: ${formData.companyName || 'Not specified'}
+Business Email: ${formData.businessEmail}
+Phone / WhatsApp: ${formData.phoneWhatsApp}
+Country: ${formData.country || 'Not specified'}
+
+--- MATERIAL SPECIFICATION ---
+Product Category: ${formData.productCategory}
+Material / Grade: ${formData.materialGrade || 'Standard Grade / Per Specification'}
+Quantity: ${formData.quantity || 'Per requirement'}
+Required Size / Specification: ${formData.requiredSpecification || 'Per drawing / quotation'}
+
+--- ADDITIONAL REQUIREMENTS / NOTES ---
+${formData.message || 'Please provide quotation, mill test availability, and delivery lead time.'}
+
+${attachedFile ? `[Note: Attachment "${attachedFile.name}" selected by buyer]\n` : ''}
+Sent via VEDANTA METAL INC Official Website RFQ Portal`;
+
+    return { subject, body };
+  };
+
+  const generateMailtoUrl = (refId: string) => {
+    const { subject, body } = getEmailContent(refId);
+    return `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const handleCopyEmailContent = () => {
+    const { subject, body } = getEmailContent(rfqReferenceId);
+    const fullText = `To: ${targetEmail}\nSubject: ${subject}\n\n${body}`;
+    navigator.clipboard.writeText(fullText);
+    setCopiedEmailBody(true);
+    setTimeout(() => setCopiedEmailBody(false), 3000);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -85,6 +131,14 @@ export const RfqSection: React.FC<RfqSectionProps> = ({
     const refId = `VMI-RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
     setRfqReferenceId(refId);
     setSubmitted(true);
+
+    // Automatically trigger mailto link to open user's default email client addressed to sales@vedantametalinc.com
+    try {
+      const mailtoUrl = generateMailtoUrl(refId);
+      window.location.href = mailtoUrl;
+    } catch {
+      // In case window.location.href is restricted in sandbox, submitted UI provides direct button & copy tool
+    }
   };
 
   const handleReset = () => {
@@ -102,6 +156,7 @@ export const RfqSection: React.FC<RfqSectionProps> = ({
       message: '',
     });
     setAttachedFile(null);
+    setCopiedEmailBody(false);
   };
 
   const generateWhatsAppMessage = () => {
@@ -115,7 +170,8 @@ Category: ${formData.productCategory}
 Grade: ${formData.materialGrade || 'Standard Specification'}
 Quantity: ${formData.quantity || 'Specification Dependent'}
 Size/Specs: ${formData.requiredSpecification || 'As per enquiry'}
-Notes: ${formData.message || 'Please share your best quote.'}`;
+Notes: ${formData.message || 'Please share your best quote.'}
+Routed to: ${targetEmail}`;
     return encodeURIComponent(text);
   };
 
@@ -151,17 +207,27 @@ Notes: ${formData.message || 'Please share your best quote.'}`;
 
                   <div className="space-y-2">
                     <h3 className="text-xl sm:text-2xl font-bold text-white">
-                      RFQ Successfully Submitted
+                      RFQ Successfully Generated
                     </h3>
                     <p className="text-slate-300 text-sm max-w-lg mx-auto">
-                      Thank you, <strong className="text-white">{formData.fullName}</strong>. Your material enquiry has been recorded under reference code:
+                      Thank you, <strong className="text-white">{formData.fullName}</strong>. Your enquiry is connected to our official sales desk:
                     </p>
-                    <div className="inline-block py-2 px-5 bg-slate-950 rounded-lg border border-amber-400/40 font-mono text-amber-300 text-lg font-bold tracking-wider">
-                      {rfqReferenceId}
+                    <div className="inline-flex items-center gap-2 py-1.5 px-4 bg-slate-950 rounded-lg border border-amber-400/40 font-mono text-amber-300 text-sm font-bold tracking-wide">
+                      <Mail className="w-4 h-4 text-amber-400" />
+                      <span>{targetEmail}</span>
+                    </div>
+                    <div className="pt-1">
+                      <span className="text-xs font-mono text-slate-500">
+                        Reference Code: <strong className="text-slate-200">{rfqReferenceId}</strong>
+                      </span>
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 text-left text-xs max-w-md mx-auto space-y-1.5 font-mono">
+                    <div className="flex justify-between text-slate-400">
+                      <span>Recipient:</span>
+                      <span className="text-amber-400 font-semibold">{targetEmail}</span>
+                    </div>
                     <div className="flex justify-between text-slate-400">
                       <span>Category:</span>
                       <span className="text-slate-200">{formData.productCategory}</span>
@@ -187,24 +253,42 @@ Notes: ${formData.message || 'Please share your best quote.'}`;
                   </div>
 
                   <p className="text-xs text-slate-400 max-w-md mx-auto">
-                    Our sales engineering desk will review the specifications and revert with pricing and lead times to <strong>{formData.businessEmail}</strong>.
+                    Click below to open your email client addressed to <strong>{targetEmail}</strong>, copy the prepared enquiry text, or forward it via WhatsApp for immediate response.
                   </p>
 
-                  {/* Immediate Priority WhatsApp Forwarding Option */}
-                  <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  {/* Direct Email & WhatsApp Action Buttons */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-xl mx-auto">
+                    <a
+                      href={generateMailtoUrl(rfqReferenceId)}
+                      className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+                    >
+                      <Mail className="w-4 h-4" />
+                      <span>OPEN IN MAIL CLIENT</span>
+                    </a>
+
+                    <button
+                      onClick={handleCopyEmailContent}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider transition-colors border border-slate-700 cursor-pointer"
+                    >
+                      <Copy className="w-4 h-4 text-amber-400" />
+                      <span>{copiedEmailBody ? 'COPIED TO CLIPBOARD' : 'COPY INQUIRY TEXT'}</span>
+                    </button>
+
                     <a
                       href={`https://wa.me/919636636229?text=${generateWhatsAppMessage()}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg"
                     >
                       <MessageSquare className="w-4 h-4" />
-                      <span>FORWARD RFQ VIA WHATSAPP</span>
+                      <span>WHATSAPP</span>
                     </a>
+                  </div>
 
+                  <div className="pt-2">
                     <button
                       onClick={handleReset}
-                      className="w-full sm:w-auto px-5 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                      className="text-xs font-mono text-slate-500 hover:text-slate-300 underline cursor-pointer"
                     >
                       Submit Another Requirement
                     </button>
@@ -213,6 +297,23 @@ Notes: ${formData.message || 'Please share your best quote.'}`;
               ) : (
                 /* The RFQ Form */
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Direct Connection Indicator to sales@vedantametalinc.com */}
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                      <span className="text-slate-300 font-medium">Inquiry Connected To:</span>
+                      <a
+                        href={`mailto:${targetEmail}`}
+                        className="text-amber-400 font-mono font-bold hover:underline"
+                      >
+                        {targetEmail}
+                      </a>
+                    </div>
+                    <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                      Official Sales Desk
+                    </span>
+                  </div>
+
                   {errorMsg && (
                     <div className="p-3.5 rounded-lg bg-rose-950/60 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0" />
@@ -462,9 +563,10 @@ Notes: ${formData.message || 'Please share your best quote.'}`;
                       <span>REQUEST A QUOTE</span>
                       <Send className="w-4 h-4" />
                     </button>
-                    <p className="text-[11px] text-slate-500 text-center mt-2.5 font-mono">
-                      Enquiries are handled directly by VEDANTA METAL INC sales desk.
-                    </p>
+                    <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400 text-center mt-2.5 font-mono">
+                      <Mail className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>Enquiries are connected directly to <strong>{targetEmail}</strong></span>
+                    </div>
                   </div>
                 </form>
               )}
