@@ -1,0 +1,6 @@
+{
+  "name": "VEDANTA METAL INC",
+  "description": "Stockist & Supplier of Stainless Steel, Duplex, Nickel Alloys & Titanium Alloys",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

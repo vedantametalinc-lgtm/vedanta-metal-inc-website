@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 110" fill="none">
+  <defs>
+    <!-- Facet 1: Outer dark steel edge -->
+    <linearGradient id="facetDarkSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4B5563"/>
+      <stop offset="50%" stop-color="#2D3748"/>
+      <stop offset="100%" stop-color="#1A202C"/>
+    </linearGradient>
+
+    <!-- Facet 2: Bright silver bevel -->
+    <linearGradient id="facetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9"/>
+      <stop offset="50%" stop-color="#CBD5E1"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+
+    <!-- Facet 3: Intermediate chrome facet -->
+    <linearGradient id="facetChrome" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="50%" stop-color="#64748B"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <!-- Facet 4: Deep Navy Wing (Back/Fold) -->
+    <linearGradient id="facetNavyDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F2D59"/>
+      <stop offset="100%" stop-color="#071933"/>
+    </linearGradient>
+
+    <!-- Facet 5: Royal Navy Wing (Front/Main) -->
+    <linearGradient id="facetNavyLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1D4ED8"/>
+      <stop offset="35%" stop-color="#0F3B7A"/>
+      <stop offset="100%" stop-color="#0A2540"/>
+    </linearGradient>
+
+    <!-- Metallic Text Gradient for high contrast on dark background -->
+    <linearGradient id="textMetallic" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="80%" stop-color="#E2E8F0"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+
+    <!-- Subtitle Line Gradient -->
+    <linearGradient id="lineGradLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="40%" stop-color="#64748B"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+    <linearGradient id="lineGradRight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8"/>
+      <stop offset="60%" stop-color="#64748B"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 3D FACETED "V" LOGO EMBLEM (EXACT REPLICA FROM transprint logo.png) -->
+  <g transform="translate(10, 10)">
+    <!-- Outer Dark Charcoal Shadow Facet -->
+    <path d="M 0 20 L 22 20 L 52 84 L 38 84 Z" fill="url(#facetDarkSteel)"/>
+    
+    <!-- Top-Left Triangular Bevel -->
+    <path d="M 0 20 L 22 20 L 40 46 L 18 46 Z" fill="url(#facetChrome)"/>
+
+    <!-- Light Silver Brushed Chrome Facet -->
+    <path d="M 22 20 L 44 20 L 68 70 L 52 84 Z" fill="url(#facetSilver)"/>
+
+    <!-- Inner Silver Highlight Bevel -->
+    <path d="M 44 20 L 52 36 L 58 72 L 52 84 Z" fill="#E2E8F0" opacity="0.9"/>
+
+    <!-- Navy Right Wing - Inner Shadow Fold -->
+    <path d="M 46 54 L 64 20 L 76 20 L 58 72 Z" fill="url(#facetNavyDark)"/>
+
+    <!-- Navy Right Wing - Main Bold Folding Blade -->
+    <path d="M 54 84 L 70 84 L 102 20 L 80 20 Z" fill="url(#facetNavyLight)"/>
+
+    <!-- Top Bevel on Navy Wing -->
+    <path d="M 80 20 L 102 20 L 94 36 L 74 36 Z" fill="#2563EB" opacity="0.4"/>
+  </g>
+
+  <!-- TYPOGRAPHY: EXACT REPLICA OF VEDANTA + — METAL INC — -->
+  <!-- "VEDANTA" Primary Wordmark -->
+  <text x="132" y="60" 
+        fill="url(#textMetallic)" 
+        font-family="'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+        font-size="44" 
+        font-weight="800" 
+        letter-spacing="0.05em">VEDANTA</text>
+
+  <!-- Lower Line: Horizontal Rules and "METAL INC" -->
+  <!-- Left Rule -->
+  <rect x="132" y="78" width="46" height="2" rx="1" fill="url(#lineGradLeft)"/>
+
+  <!-- "METAL INC" Subtitle text -->
+  <text x="186" y="82" 
+        fill="#94A3B8" 
+        font-family="'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+        font-size="13" 
+        font-weight="700" 
+        letter-spacing="0.26em">METAL INC</text>
+
+  <!-- Right Rule -->
+  <rect x="330" y="78" width="46" height="2" rx="1" fill="url(#lineGradRight)"/>
+</svg>
