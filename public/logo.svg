@@ -79,9 +79,9 @@
   </g>
 
   <!-- TYPOGRAPHY: EXACT REPLICA OF VEDANTA + — METAL INC — -->
-  <!-- "VEDANTA" Primary Wordmark -->
+  <!-- "VEDANTA" Primary Wordmark in Deep Corporate Navy matching the uploaded logo -->
   <text x="132" y="60" 
-        fill="url(#textMetallic)" 
+        fill="#0A2540" 
         font-family="'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
         font-size="44" 
         font-weight="800" 
@@ -89,16 +89,16 @@
 
   <!-- Lower Line: Horizontal Rules and "METAL INC" -->
   <!-- Left Rule -->
-  <rect x="132" y="78" width="46" height="2" rx="1" fill="url(#lineGradLeft)"/>
+  <rect x="132" y="78" width="46" height="2" rx="1" fill="#64748B"/>
 
-  <!-- "METAL INC" Subtitle text -->
+  <!-- "METAL INC" Subtitle text in Steel Grey -->
   <text x="186" y="82" 
-        fill="#94A3B8" 
+        fill="#475569" 
         font-family="'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
         font-size="13" 
         font-weight="700" 
         letter-spacing="0.26em">METAL INC</text>
 
   <!-- Right Rule -->
-  <rect x="330" y="78" width="46" height="2" rx="1" fill="url(#lineGradRight)"/>
+  <rect x="330" y="78" width="46" height="2" rx="1" fill="#64748B"/>
 </svg>

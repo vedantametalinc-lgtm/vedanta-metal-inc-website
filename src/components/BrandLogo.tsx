@@ -33,17 +33,17 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         />
       ) : (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-900 to-slate-950 border border-amber-500/30 flex items-center justify-center p-2 shadow-inner">
+          <div className="w-10 h-10 rounded-lg bg-[#0A2540] text-white flex items-center justify-center p-2 shadow-sm">
             <svg viewBox="0 0 40 40" className="w-full h-full" fill="none">
-              <path d="M8 8 L18 8 L24 28 L30 8 L40 8 L28 34 L20 34 Z" fill="#D4AF37" />
+              <path d="M8 8 L18 8 L24 28 L30 8 L40 8 L28 34 L20 34 Z" fill="#FFFFFF" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="font-extrabold tracking-wide text-white text-lg leading-tight">
+            <span className="font-extrabold tracking-wide text-[#0A2540] text-lg leading-tight">
               VEDANTA METAL INC
             </span>
             {showSubtitle && (
-              <span className="text-[10px] tracking-widest text-slate-400 font-semibold uppercase">
+              <span className="text-[10px] tracking-widest text-slate-500 font-semibold uppercase">
                 Stockist &amp; Supplier
               </span>
             )}

@@ -6,11 +6,16 @@
 
 export interface MaterialCategory {
   id: string;
+  slug: string;
   name: string;
   shortDesc: string;
+  detailedDesc: string;
   image: string;
   grades: string[];
   specificationNote: string;
+  availableForms: string[];
+  keyProperties: string[];
+  serviceEnvironments: string[];
 }
 
 export const COMPANY_INFO = {
@@ -34,8 +39,10 @@ export const COMPANY_INFO = {
 export const MATERIAL_CATEGORIES: MaterialCategory[] = [
   {
     id: "stainless-steel",
+    slug: "stainless-steel",
     name: "STAINLESS STEEL",
     shortDesc: "Comprehensive stock of austenitic, ferritic, and martensitic stainless steel grades for corrosion-resistant and structural applications.",
+    detailedDesc: "VEDANTA METAL INC supplies high-integrity stainless steel materials designed for engineering resilience across chemical, marine, architectural, food-grade, and severe atmospheric environments. Stocked across an exhaustive spectrum of standard austenitic, ferritic, and martensitic specifications.",
     image: "/src/assets/images/stainless_steel_inventory_1792267828128.jpg",
     grades: [
       "AISI 304",
@@ -50,12 +57,35 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       "202",
       "202L"
     ],
-    specificationNote: "Available for procurement enquiries across standard sheet, plate, coil, pipe, and bar specifications."
+    specificationNote: "Available for procurement enquiries across standard sheet, plate, coil, pipe, flat bar (patta patti), and round bar specifications.",
+    availableForms: [
+      "Hot & Cold Rolled Sheets",
+      "Heavy Industrial Plates",
+      "Slit Coils & Strips",
+      "Flat Bars (Patta Patti)",
+      "Round Bars & Hex Bars",
+      "Seamless & ERW Pipes",
+      "Butt-Weld Fittings & Flanges"
+    ],
+    keyProperties: [
+      "Pitting and general corrosion resistance",
+      "High cryogenic and high-temperature ductility",
+      "Excellent machinability and weldability",
+      "Hygienic and easily sanitizable finish"
+    ],
+    serviceEnvironments: [
+      "Chemical & Acid Processing Plants",
+      "Marine & Coastal Infrastructure",
+      "Food, Dairy & Beverage Processing",
+      "Architectural Panels & Structural Supports"
+    ]
   },
   {
     id: "nickel-alloys",
+    slug: "nickel-alloys",
     name: "NICKEL & HIGH-TEMPERATURE ALLOYS",
     shortDesc: "High-performance nickel, inconel, monel, and hastelloy alloys engineered for extreme thermal resistance and aggressive corrosive environments.",
+    detailedDesc: "Specialty high-temperature and extreme-corrosion superalloys supplied by VEDANTA METAL INC to withstand oxidizing acids, reducing chemical media, stress corrosion cracking, and severe service temperatures exceeding 1000°C.",
     image: "/src/assets/images/nickel_alloys_bars_1792267828815.jpg",
     grades: [
       "Nickel 200",
@@ -71,12 +101,34 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       "Hastelloy C276",
       "Hastelloy C22"
     ],
-    specificationNote: "Technical supply for chemical processing, marine, high-pressure, and high-temperature service."
+    specificationNote: "Technical supply for chemical processing, marine, high-pressure, and high-temperature service.",
+    availableForms: [
+      "Precision Turned Round Bars",
+      "Heavy Forged Billets & Blocks",
+      "High-Temperature Pressure Plates",
+      "Seamless Heavy-Wall Tubes",
+      "Custom Machined Precision Blanks",
+      "Flanges & Fastener Stock"
+    ],
+    keyProperties: [
+      "Thermal oxidation resistance up to 1150°C",
+      "Immunity to chloride stress corrosion cracking",
+      "Exceptional resistance to hydrofluoric and sulfuric acids",
+      "Superior creep-rupture tensile strength"
+    ],
+    serviceEnvironments: [
+      "Aerospace Afterburners & Turbine Casing",
+      "Chemical Synthesis & Chlorination Scrubbers",
+      "Sour Gas / Oilfield Downhole Equipment",
+      "Nuclear Steam Generators & Reheaters"
+    ]
   },
   {
     id: "duplex-steel",
+    slug: "duplex-steel",
     name: "DUPLEX & SUPER DUPLEX STEEL",
     shortDesc: "Dual-phase austenitic-ferritic microstructures offering superior mechanical tensile yield strength and resistance to pitting and crevice corrosion.",
+    detailedDesc: "Engineered dual-phase metallurgical alloys balancing approximately equal proportions of austenite and ferrite. Duplex and super duplex steels stocked by VEDANTA METAL INC provide more than double the mechanical yield strength of standard austenitic 316L, coupled with high PREN (Pitting Resistance Equivalent Number) ratings.",
     image: "/src/assets/images/duplex_steel_pipes_1792267829786.jpg",
     grades: [
       "UNS 31803",
@@ -86,12 +138,34 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       "UNS 32750",
       "UNS 32760"
     ],
-    specificationNote: "Specified for offshore, desalination, subsea, and severe industrial pressure piping systems."
+    specificationNote: "Specified for offshore, desalination, subsea, and severe industrial pressure piping systems.",
+    availableForms: [
+      "Seamless Process Pipes",
+      "Heavy Wall Riser Tubes",
+      "Hot Rolled Pressure Plates",
+      "Forged Flanges & Spectacle Blinds",
+      "Precision Round Bars & Shafts",
+      "Fittings & Manifold Tubulars"
+    ],
+    keyProperties: [
+      "High yield strength (≥ 450 - 550 MPa)",
+      "High critical pitting temperature (CPT)",
+      "Resistance to erosion and sour gas cracking",
+      "Significant weight-saving potential in piping design"
+    ],
+    serviceEnvironments: [
+      "Offshore Oil & Gas Production Flowlines",
+      "Reverse Osmosis Desalination Plants",
+      "Subsea Manifolds & Christmas Trees",
+      "Chemical Tankers & Marine Cargo Holds"
+    ]
   },
   {
     id: "titanium-alloys",
+    slug: "titanium-alloys",
     name: "TITANIUM ALLOYS",
     shortDesc: "High strength-to-density ratio materials with exceptional corrosion resistance in harsh chlorides, acids, and aerospace environments.",
+    detailedDesc: "High-integrity titanium materials supplied by VEDANTA METAL INC for precision aerospace, offshore energy, and aggressive chemical processing. Demonstrates absolute immunity to ambient seawater corrosion and outstanding strength-to-weight performance.",
     image: "/src/assets/images/stainless_flat_bars_patta_patti_1792269000319.jpg",
     grades: [
       "Grade 1",
@@ -102,12 +176,34 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       "Grade 23",
       "6Al-4V"
     ],
-    specificationNote: "Commercial pure and alpha-beta alloy grades for precision engineering, chemical vessels, and aerospace components."
+    specificationNote: "Commercial pure and alpha-beta alloy grades for precision engineering, chemical vessels, and aerospace components.",
+    availableForms: [
+      "Precision Round Bars",
+      "Titanium Flats & Strips (Patta Patti)",
+      "Plates & Mill Cut Blanks",
+      "Seamless Heat Exchanger Tubing",
+      "Precision Wire & Fastener Rods",
+      "Custom Waterjet Cut Profiles"
+    ],
+    keyProperties: [
+      "Outstanding strength-to-weight ratio (45% lighter than steel)",
+      "Total immunity to marine seawater corrosion",
+      "Excellent resistance to oxidizing acids and chlorates",
+      "High fracture toughness at cryogenic temperatures"
+    ],
+    serviceEnvironments: [
+      "Aerospace Structural & Engine Mounts",
+      "Chlor-Alkali & Bleaching Process Vessels",
+      "Seawater Heat Exchangers & Condensers",
+      "Precision Medical & Engineering Instruments"
+    ]
   },
   {
     id: "aluminium-copper-brass",
+    slug: "aluminium-copper-brass",
     name: "ALUMINIUM, COPPER & BRASS",
     shortDesc: "High-conductivity copper and corrosion-resistant brass alloys suited for electrical, thermal, marine, and architectural engineering.",
+    detailedDesc: "Supplying premium commercial and engineering grades of deoxidized and electrolytic high-conductivity coppers, alongside marine-grade condenser and architectural brasses. Engineered for superior electrical conduction, thermal dissipation, and marine anti-fouling.",
     image: "/src/assets/images/titanium_copper_materials_1792267829308.jpg",
     grades: [
       "DHP Copper",
@@ -117,7 +213,27 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
       "63/67 Brass",
       "Admiralty Brass"
     ],
-    specificationNote: "Electrolytic and deoxidized high-conductivity coppers, plus marine-grade condenser brass alloys."
+    specificationNote: "Electrolytic and deoxidized high-conductivity coppers, plus marine-grade condenser brass alloys.",
+    availableForms: [
+      "Electrical Busbars & Flat Strips",
+      "Seamless Condenser & Heat Exchanger Tubes",
+      "Round Solid Bars & Drawn Rods",
+      "Sheets & Cold Rolled Foil Stock",
+      "Precision Machining Hexagon Bars",
+      "Extruded Engineering Profiles"
+    ],
+    keyProperties: [
+      "100% IACS high electrical conductivity (ETP / OFHC)",
+      "High thermal transfer coefficient",
+      "Natural biofouling and antimicrobial resistance",
+      "Superior cold forming and deep drawing workability"
+    ],
+    serviceEnvironments: [
+      "Electrical Switchgear & Power Distribution",
+      "Marine Condenser & Evaporator Tubing",
+      "Heat Exchanger Shell & Tube Assemblies",
+      "Precision Turned Fasteners & Plumbing Fittings"
+    ]
   }
 ];
 

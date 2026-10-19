@@ -11,12 +11,12 @@ export const FloatingWhatsApp: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
       {/* Tooltip notice */}
       {showTooltip && (
-        <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-emerald-500/40 text-slate-200 text-xs shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Quick procurement enquiry on WhatsApp</span>
+        <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs shadow-xl animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="font-medium">Quick procurement enquiry on WhatsApp</span>
           <button
             onClick={() => setShowTooltip(false)}
-            className="text-slate-400 hover:text-white p-0.5 ml-1"
+            className="text-slate-400 hover:text-slate-700 p-0.5 ml-1 cursor-pointer"
             aria-label="Dismiss notice"
           >
             <X className="w-3.5 h-3.5" />
