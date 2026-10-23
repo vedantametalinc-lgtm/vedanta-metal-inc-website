@@ -51,6 +51,24 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     setSelectedGrade(grade);
   };
 
+  const generateInquiryMailtoUrl = (ref: string) => {
+    const subject = `Material RFQ [${ref}] - ${category.name} (${selectedGrade})`;
+    const body = `Attn: Sales Department - VEDANTA METAL INC\nEmail: ${targetEmail}\n\n` +
+      `Product Category: ${category.name}\n` +
+      `Specified Grade: ${selectedGrade}\n` +
+      `Reference ID: ${ref}\n\n` +
+      `Buyer Name: ${inquiryName}\n` +
+      `Company: ${inquiryCompany || 'N/A'}\n` +
+      `Email: ${inquiryEmail}\n` +
+      `Phone/WhatsApp: ${inquiryPhone}\n` +
+      `Quantity: ${inquiryQuantity || 'As per quotation'}\n` +
+      `Size / Specification: ${inquirySpecs || 'Per standard enquiry'}\n` +
+      `Notes: ${inquiryMessage || 'Please share your best quote.'}\n\n` +
+      `Prepared via VEDANTA METAL INC Official Product Page`;
+
+    return `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   const handleQuickSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
@@ -69,27 +87,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     }
 
     const ref = `VMI-RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
-    setRfqRef(ref);
-    setFormSubmitted(true);
-
-    const subject = `Material RFQ [${ref}] - ${category.name} (${selectedGrade})`;
-    const body = `Attn: Sales Department - VEDANTA METAL INC\nEmail: ${targetEmail}\n\n` +
-      `Product Category: ${category.name}\n` +
-      `Specified Grade: ${selectedGrade}\n` +
-      `Reference ID: ${ref}\n\n` +
-      `Buyer Name: ${inquiryName}\n` +
-      `Company: ${inquiryCompany || 'N/A'}\n` +
-      `Email: ${inquiryEmail}\n` +
-      `Phone/WhatsApp: ${inquiryPhone}\n` +
-      `Quantity: ${inquiryQuantity || 'As per quotation'}\n` +
-      `Size / Specification: ${inquirySpecs || 'Per standard enquiry'}\n` +
-      `Notes: ${inquiryMessage || 'Please share your best quote.'}\n\n` +
-      `Sent via VEDANTA METAL INC Official Product Page`;
-
-    const mailto = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     try {
-      window.location.href = mailto;
-    } catch {}
+      window.location.href = generateInquiryMailtoUrl(ref);
+      setRfqRef(ref);
+      setFormSubmitted(true);
+    } catch {
+      setFormError('Could not open your email app. Please try again or contact our sales desk directly.');
+    }
   };
 
   const copyEmailText = () => {
@@ -408,12 +412,19 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h4 className="text-lg font-bold text-[#0A2540]">
-                  Inquiry Prepared &amp; Connected to {targetEmail}
+                  Email Draft Ready for {targetEmail}
                 </h4>
                 <p className="text-xs text-slate-600 max-w-md mx-auto">
-                  Reference Code: <strong className="font-mono text-[#0A2540]">{rfqRef}</strong>. Our sales desk will verify material availability and revert promptly.
+                  Your email app should open with the enquiry prepared. Review the details and press Send; the enquiry has not been sent yet. Reference Code: <strong className="font-mono text-[#0A2540]">{rfqRef}</strong>.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <a
+                    href={generateInquiryMailtoUrl(rfqRef)}
+                    className="px-4 py-2 text-xs font-bold text-white bg-[#0A2540] hover:bg-[#071E3D] rounded transition-colors flex items-center gap-1.5"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Open Email Draft</span>
+                  </a>
                   <button
                     onClick={copyEmailText}
                     className="px-4 py-2 text-xs font-bold text-[#0A2540] bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors cursor-pointer flex items-center gap-1.5"
@@ -560,7 +571,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 font-mono pt-1">
                   <Mail className="w-3 h-3 text-[#0A2540]" />
-                  <span>Enquiry routes directly to <strong>{targetEmail}</strong></span>
+                  <span>Submitting opens an email draft; review it and press Send.</span>
                 </div>
               </form>
             )}

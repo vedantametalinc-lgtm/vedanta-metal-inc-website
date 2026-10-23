@@ -91,8 +91,8 @@ Required Size / Specification: ${formData.requiredSpecification || 'Per drawing 
 --- ADDITIONAL REQUIREMENTS / NOTES ---
 ${formData.message || 'Please provide quotation, mill test availability, and delivery lead time.'}
 
-${attachedFile ? `[Note: Attachment "${attachedFile.name}" selected by buyer]\n` : ''}
-Sent via VEDANTA METAL INC Official Website RFQ Portal`;
+${attachedFile ? `[Attachment selected: "${attachedFile.name}". The website cannot attach files to an email draft; please attach it manually.]\n` : ''}
+Prepared via VEDANTA METAL INC Official Website RFQ Portal`;
 
     return { subject, body };
   };
@@ -129,14 +129,13 @@ Sent via VEDANTA METAL INC Official Website RFQ Portal`;
 
     // Generate unique RFQ Reference ID
     const refId = `VMI-RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
-    setRfqReferenceId(refId);
-    setSubmitted(true);
-
-    // Automatically trigger mailto link to open user's default email client addressed to sales@vedantametalinc.com
     try {
-      const mailtoUrl = generateMailtoUrl(refId);
-      window.location.href = mailtoUrl;
-    } catch {}
+      window.location.href = generateMailtoUrl(refId);
+      setRfqReferenceId(refId);
+      setSubmitted(true);
+    } catch {
+      setErrorMsg('Could not open your email app. Please use the email link below to send your enquiry.');
+    }
   };
 
   const handleReset = () => {
@@ -205,10 +204,10 @@ Routed to: ${targetEmail}`;
 
                   <div className="space-y-2">
                     <h3 className="text-xl sm:text-2xl font-bold text-[#0A2540]">
-                      RFQ Successfully Generated
+                      Email Draft Ready
                     </h3>
                     <p className="text-slate-600 text-sm max-w-lg mx-auto">
-                      Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your enquiry is connected to our official sales desk:
+                      Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your email app should open with the enquiry addressed to our sales desk. Review it and press Send; the enquiry has not been sent yet.
                     </p>
                     <div className="inline-flex items-center gap-2 py-1.5 px-4 bg-slate-50 rounded-lg border border-slate-200 font-mono text-[#0A2540] text-sm font-bold tracking-wide">
                       <Mail className="w-4 h-4 text-[#0A2540]" />
@@ -251,7 +250,7 @@ Routed to: ${targetEmail}`;
                   </div>
 
                   <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    Click below to open your email client addressed to <strong>{targetEmail}</strong>, copy the prepared enquiry text, or forward it via WhatsApp for immediate response.
+                    If your email app did not open, use the button below. Selected files are not attached automatically; attach them to the email before sending.
                   </p>
 
                   {/* Direct Email & WhatsApp Action Buttons */}
@@ -261,7 +260,7 @@ Routed to: ${targetEmail}`;
                       className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#0A2540] hover:bg-[#071E3D] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
                     >
                       <Mail className="w-4 h-4" />
-                      <span>OPEN IN MAIL CLIENT</span>
+                      <span>OPEN EMAIL DRAFT</span>
                     </a>
 
                     <button
@@ -295,11 +294,11 @@ Routed to: ${targetEmail}`;
               ) : (
                 /* The RFQ Form */
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Direct Connection Indicator to sales@vedantametalinc.com */}
+                  {/* The website prepares an email draft; the visitor sends it from their mail app. */}
                   <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                      <span className="text-slate-600 font-medium">Inquiry Connected To:</span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" />
+                      <span className="text-slate-600 font-medium">Email draft addressed to:</span>
                       <a
                         href={`mailto:${targetEmail}`}
                         className="text-[#0A2540] font-mono font-bold hover:underline"
@@ -563,7 +562,7 @@ Routed to: ${targetEmail}`;
                     </button>
                     <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 text-center mt-2.5 font-mono">
                       <Mail className="w-3.5 h-3.5 text-[#0A2540] shrink-0" />
-                      <span>Enquiries are connected directly to <strong>{targetEmail}</strong></span>
+                      <span>Submitting opens an email draft; review it and press Send.</span>
                     </div>
                   </div>
                 </form>
