@@ -4,6 +4,13 @@
  * Strict adherence to provided specifications: NO invented grades or unsupported statistics.
  */
 
+import duplexSteelPipesImage from "../assets/images/duplex_steel_pipes_1792267829786.jpg";
+import heroIndustrialMetalsImage from "../assets/images/hero_industrial_metals_1792267826893.jpg";
+import nickelAlloysBarsImage from "../assets/images/nickel_alloys_bars_1792267828815.jpg";
+import stainlessFlatBarsImage from "../assets/images/stainless_flat_bars_patta_patti_1792269000319.jpg";
+import stainlessSteelInventoryImage from "../assets/images/stainless_steel_inventory_1792267828128.jpg";
+import titaniumCopperMaterialsImage from "../assets/images/titanium_copper_materials_1792267829308.jpg";
+
 export interface MaterialCategory {
   id: string;
   slug: string;
@@ -43,7 +50,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     name: "STAINLESS STEEL",
     shortDesc: "Comprehensive stock of austenitic, ferritic, and martensitic stainless steel grades for corrosion-resistant and structural applications.",
     detailedDesc: "VEDANTA METAL INC supplies high-integrity stainless steel materials designed for engineering resilience across chemical, marine, architectural, food-grade, and severe atmospheric environments. Stocked across an exhaustive spectrum of standard austenitic, ferritic, and martensitic specifications.",
-    image: "/src/assets/images/stainless_steel_inventory_1792267828128.jpg",
+    image: stainlessSteelInventoryImage,
     grades: [
       "AISI 304",
       "AISI 316",
@@ -86,7 +93,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     name: "NICKEL & HIGH-TEMPERATURE ALLOYS",
     shortDesc: "High-performance nickel, inconel, monel, and hastelloy alloys engineered for extreme thermal resistance and aggressive corrosive environments.",
     detailedDesc: "Specialty high-temperature and extreme-corrosion superalloys supplied by VEDANTA METAL INC to withstand oxidizing acids, reducing chemical media, stress corrosion cracking, and severe service temperatures exceeding 1000°C.",
-    image: "/src/assets/images/nickel_alloys_bars_1792267828815.jpg",
+    image: nickelAlloysBarsImage,
     grades: [
       "Nickel 200",
       "Nickel 201",
@@ -129,7 +136,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     name: "DUPLEX & SUPER DUPLEX STEEL",
     shortDesc: "Dual-phase austenitic-ferritic microstructures offering superior mechanical tensile yield strength and resistance to pitting and crevice corrosion.",
     detailedDesc: "Engineered dual-phase metallurgical alloys balancing approximately equal proportions of austenite and ferrite. Duplex and super duplex steels stocked by VEDANTA METAL INC provide more than double the mechanical yield strength of standard austenitic 316L, coupled with high PREN (Pitting Resistance Equivalent Number) ratings.",
-    image: "/src/assets/images/duplex_steel_pipes_1792267829786.jpg",
+    image: duplexSteelPipesImage,
     grades: [
       "UNS 31803",
       "1.4462",
@@ -166,7 +173,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     name: "TITANIUM ALLOYS",
     shortDesc: "High strength-to-density ratio materials with exceptional corrosion resistance in harsh chlorides, acids, and aerospace environments.",
     detailedDesc: "High-integrity titanium materials supplied by VEDANTA METAL INC for precision aerospace, offshore energy, and aggressive chemical processing. Demonstrates absolute immunity to ambient seawater corrosion and outstanding strength-to-weight performance.",
-    image: "/src/assets/images/stainless_flat_bars_patta_patti_1792269000319.jpg",
+    image: stainlessFlatBarsImage,
     grades: [
       "Grade 1",
       "Grade 2",
@@ -204,7 +211,7 @@ export const MATERIAL_CATEGORIES: MaterialCategory[] = [
     name: "ALUMINIUM, COPPER & BRASS",
     shortDesc: "High-conductivity copper and corrosion-resistant brass alloys suited for electrical, thermal, marine, and architectural engineering.",
     detailedDesc: "Supplying premium commercial and engineering grades of deoxidized and electrolytic high-conductivity coppers, alongside marine-grade condenser and architectural brasses. Engineered for superior electrical conduction, thermal dissipation, and marine anti-fouling.",
-    image: "/src/assets/images/titanium_copper_materials_1792267829308.jpg",
+    image: titaniumCopperMaterialsImage,
     grades: [
       "DHP Copper",
       "ETP Copper",
@@ -315,36 +322,36 @@ export const GALLERY_ITEMS = [
     title: "Stainless Steel Coils & Slit Strip",
     category: "Stainless Steel",
     tag: "Cold & Hot Rolled Coils",
-    image: "/src/assets/images/stainless_steel_inventory_1792267828128.jpg"
+    image: stainlessSteelInventoryImage
   },
   {
     title: "Specialty Nickel Alloy Round Bars",
     category: "Nickel & High-Temp",
     tag: "Forged & Turned Stock",
-    image: "/src/assets/images/nickel_alloys_bars_1792267828815.jpg"
+    image: nickelAlloysBarsImage
   },
   {
     title: "Seamless Duplex Steel Pipes",
     category: "Duplex & Super Duplex",
     tag: "Heavy-Wall Industrial Pipes",
-    image: "/src/assets/images/duplex_steel_pipes_1792267829786.jpg"
+    image: duplexSteelPipesImage
   },
   {
     title: "Precision Metal Flats & Slit Plates (Patta Patti)",
     category: "Flat Bars & Strips",
     tag: "Industrial Flat Stock",
-    image: "/src/assets/images/stainless_flat_bars_patta_patti_1792269000319.jpg"
+    image: stainlessFlatBarsImage
   },
   {
     title: "Heavy Stainless Steel Plate Inventory",
     category: "Stainless Steel",
     tag: "Industrial Cut Plates",
-    image: "/src/assets/images/hero_industrial_metals_1792267826893.jpg"
+    image: heroIndustrialMetalsImage
   },
   {
     title: "Industrial Metal Stock & Logistics",
     category: "Material Staging",
     tag: "Engineering Metal Supply",
-    image: "/src/assets/images/stainless_steel_inventory_1792267828128.jpg"
+    image: stainlessSteelInventoryImage
   }
 ];

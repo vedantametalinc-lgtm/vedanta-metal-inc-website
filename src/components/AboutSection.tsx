@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layers, FileCheck2, ArrowRight } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import stainlessSteelInventoryImage from '../assets/images/stainless_steel_inventory_1792267828128.jpg';
 
 interface AboutSectionProps {
   onOpenRfq: () => void;
@@ -90,7 +91,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenRfq }) => {
               {/* Industrial Metal Visual */}
               <div className="relative z-10 my-6 rounded-xl overflow-hidden border border-slate-200 shadow-sm group">
                 <img
-                  src="/src/assets/images/stainless_steel_inventory_1792267828128.jpg"
+                  src={stainlessSteelInventoryImage}
                   alt="VEDANTA METAL INC industrial steel inventory"
                   className="w-full h-56 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"

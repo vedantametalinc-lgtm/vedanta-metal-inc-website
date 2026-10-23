@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck, MessageSquare, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { COMPANY_INFO } from '../data/metalsData';
+import heroIndustrialMetalsImage from '../assets/images/hero_industrial_metals_1792267826893.jpg';
 
 interface HeroProps {
   onOpenRfq: () => void;
@@ -106,7 +107,7 @@ export const Hero: React.FC<HeroProps> = ({
             <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 shadow-xl group">
               <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100 relative">
                 <img
-                  src="/src/assets/images/hero_industrial_metals_1792267826893.jpg"
+                  src={heroIndustrialMetalsImage}
                   alt="Industrial metals coils and plates inventory by VEDANTA METAL INC"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
