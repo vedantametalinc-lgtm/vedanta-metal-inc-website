@@ -153,7 +153,7 @@ export default function App() {
             {/* 9. Gallery */}
             <GallerySection />
 
-            {/* 10. Request a Quote form that prepares an email draft for sales */}
+            {/* 10. Request a Quote form connected to the sales spreadsheet */}
             <RfqSection initialCategory={rfqCategory} initialGrade={rfqGrade} />
 
             {/* 11. Contact Vedanta Metal Inc */}

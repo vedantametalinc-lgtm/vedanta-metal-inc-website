@@ -14,6 +14,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { MaterialCategory, MATERIAL_CATEGORIES, COMPANY_INFO } from '../data/metalsData';
+import { submitRfq } from '../utils/rfqSubmission';
 
 interface ProductDetailPageProps {
   category: MaterialCategory;
@@ -44,6 +45,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   const [rfqRef, setRfqRef] = useState('');
   const [copied, setCopied] = useState(false);
   const [formError, setFormError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const targetEmail = COMPANY_INFO.emails[0];
 
@@ -69,7 +71,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     return `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const handleQuickSubmit = (e: React.FormEvent) => {
+  const handleQuickSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
 
@@ -87,12 +89,29 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     }
 
     const ref = `VMI-RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
+    setIsSubmitting(true);
     try {
-      window.location.href = generateInquiryMailtoUrl(ref);
+      await submitRfq({
+        fullName: inquiryName.trim(),
+        companyName: inquiryCompany.trim(),
+        businessEmail: inquiryEmail.trim(),
+        phoneWhatsapp: inquiryPhone.trim(),
+        country: '',
+        productCategory: category.name,
+        materialGrade: selectedGrade,
+        quantity: inquiryQuantity.trim(),
+        sizeSpec: inquirySpecs.trim(),
+        message: inquiryMessage.trim(),
+        fileData: null,
+        fileName: null,
+        fileMimeType: null,
+      });
       setRfqRef(ref);
       setFormSubmitted(true);
-    } catch {
-      setFormError('Could not open your email app. Please try again or contact our sales desk directly.');
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Could not submit your enquiry. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -412,10 +431,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h4 className="text-lg font-bold text-[#0A2540]">
-                  Email Draft Ready for {targetEmail}
+                  Enquiry Submitted
                 </h4>
                 <p className="text-xs text-slate-600 max-w-md mx-auto">
-                  Your email app should open with the enquiry prepared. Review the details and press Send; the enquiry has not been sent yet. Reference Code: <strong className="font-mono text-[#0A2540]">{rfqRef}</strong>.
+                  Your enquiry has been sent to our sales team and recorded. Reference Code: <strong className="font-mono text-[#0A2540]">{rfqRef}</strong>.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                   <a
@@ -552,9 +571,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto flex-1 py-3 px-6 rounded-lg bg-[#0A2540] hover:bg-[#071E3D] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto flex-1 py-3 px-6 rounded-lg bg-[#0A2540] hover:bg-[#071E3D] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span>REQUEST QUOTE FOR {selectedGrade || category.name}</span>
+                    <span>{isSubmitting ? 'SUBMITTING...' : `REQUEST QUOTE FOR ${selectedGrade || category.name}`}</span>
                     <Send className="w-3.5 h-3.5" />
                   </button>
 
@@ -571,7 +591,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 font-mono pt-1">
                   <Mail className="w-3 h-3 text-[#0A2540]" />
-                  <span>Submitting opens an email draft; review it and press Send.</span>
+                  <span>Your enquiry will be sent directly to our sales team.</span>
                 </div>
               </form>
             )}

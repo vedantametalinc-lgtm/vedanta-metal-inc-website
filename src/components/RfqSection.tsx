@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, FileText, CheckCircle2, MessageSquare, Send, X, AlertCircle, Mail, Copy } from 'lucide-react';
 import { MATERIAL_CATEGORIES, COMPANY_INFO } from '../data/metalsData';
+import { readFileAsBase64, submitRfq } from '../utils/rfqSubmission';
 
 interface RfqSectionProps {
   initialCategory?: string;
@@ -29,6 +30,7 @@ export const RfqSection: React.FC<RfqSectionProps> = ({
   const [rfqReferenceId, setRfqReferenceId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [copiedEmailBody, setCopiedEmailBody] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const targetEmail = COMPANY_INFO.emails[0]; // sales@vedantametalinc.com
 
@@ -110,7 +112,7 @@ Prepared via VEDANTA METAL INC Official Website RFQ Portal`;
     setTimeout(() => setCopiedEmailBody(false), 3000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
 
@@ -129,12 +131,30 @@ Prepared via VEDANTA METAL INC Official Website RFQ Portal`;
 
     // Generate unique RFQ Reference ID
     const refId = `VMI-RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
+    setIsSubmitting(true);
     try {
-      window.location.href = generateMailtoUrl(refId);
+      const fileData = attachedFile ? await readFileAsBase64(attachedFile) : null;
+      await submitRfq({
+        fullName: formData.fullName.trim(),
+        companyName: formData.companyName.trim(),
+        businessEmail: formData.businessEmail.trim(),
+        phoneWhatsapp: formData.phoneWhatsApp.trim(),
+        country: formData.country.trim(),
+        productCategory: formData.productCategory,
+        materialGrade: formData.materialGrade.trim(),
+        quantity: formData.quantity.trim(),
+        sizeSpec: formData.requiredSpecification.trim(),
+        message: formData.message.trim(),
+        fileData,
+        fileName: attachedFile?.name ?? null,
+        fileMimeType: attachedFile?.type ?? null,
+      });
       setRfqReferenceId(refId);
       setSubmitted(true);
-    } catch {
-      setErrorMsg('Could not open your email app. Please use the email link below to send your enquiry.');
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : 'Could not submit your enquiry. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -204,10 +224,10 @@ Routed to: ${targetEmail}`;
 
                   <div className="space-y-2">
                     <h3 className="text-xl sm:text-2xl font-bold text-[#0A2540]">
-                      Email Draft Ready
+                      Enquiry Submitted
                     </h3>
                     <p className="text-slate-600 text-sm max-w-lg mx-auto">
-                      Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your email app should open with the enquiry addressed to our sales desk. Review it and press Send; the enquiry has not been sent yet.
+                      Thank you, <strong className="text-slate-900">{formData.fullName}</strong>. Your enquiry has been submitted to our sales team and recorded. Reference ID: <strong className="font-mono text-[#0A2540]">{rfqReferenceId}</strong>.
                     </p>
                     <div className="inline-flex items-center gap-2 py-1.5 px-4 bg-slate-50 rounded-lg border border-slate-200 font-mono text-[#0A2540] text-sm font-bold tracking-wide">
                       <Mail className="w-4 h-4 text-[#0A2540]" />
@@ -250,7 +270,7 @@ Routed to: ${targetEmail}`;
                   </div>
 
                   <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    If your email app did not open, use the button below. Selected files are not attached automatically; attach them to the email before sending.
+                    You can also open an email draft or contact our team on WhatsApp.
                   </p>
 
                   {/* Direct Email & WhatsApp Action Buttons */}
@@ -294,11 +314,11 @@ Routed to: ${targetEmail}`;
               ) : (
                 /* The RFQ Form */
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* The website prepares an email draft; the visitor sends it from their mail app. */}
+                  {/* Enquiries are submitted directly to the sales team and spreadsheet. */}
                   <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" />
-                      <span className="text-slate-600 font-medium">Email draft addressed to:</span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+                      <span className="text-slate-600 font-medium">Direct online submission to:</span>
                       <a
                         href={`mailto:${targetEmail}`}
                         className="text-[#0A2540] font-mono font-bold hover:underline"
@@ -306,8 +326,8 @@ Routed to: ${targetEmail}`;
                         {targetEmail}
                       </a>
                     </div>
-                    <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
-                      Official Sales Desk
+                    <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-wider text-emerald-700 font-bold">
+                      Spreadsheet Connected
                     </span>
                   </div>
 
@@ -555,14 +575,15 @@ Routed to: ${targetEmail}`;
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-4 text-xs sm:text-sm font-bold tracking-wider uppercase text-white bg-[#0A2540] hover:bg-[#071E3D] rounded-xl transition-all shadow-md active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2"
+                      disabled={isSubmitting}
+                      className="w-full py-4 text-xs sm:text-sm font-bold tracking-wider uppercase text-white bg-[#0A2540] hover:bg-[#071E3D] rounded-xl transition-all shadow-md active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span>REQUEST A QUOTE</span>
+                      <span>{isSubmitting ? 'SUBMITTING...' : 'REQUEST A QUOTE'}</span>
                       <Send className="w-4 h-4" />
                     </button>
                     <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 text-center mt-2.5 font-mono">
                       <Mail className="w-3.5 h-3.5 text-[#0A2540] shrink-0" />
-                      <span>Submitting opens an email draft; review it and press Send.</span>
+                      <span>Your enquiry will be sent directly to our sales team.</span>
                     </div>
                   </div>
                 </form>
